@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDocumentTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeName</key>
+			<string>ShelfScout Product</string>
+			<key>LSHandlerRank</key>
+			<string>Owner</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>com.shelfscout.product</string>
+			</array>
+		</dict>
+	</array>
+	<key>CFBundleExecutable</key>
+	<string>$(EXECUTABLE_NAME)</string>
+	<key>CFBundleIcons</key>
+	<dict>
+		<key>CFBundlePrimaryIcon</key>
+		<dict>
+			<key>CFBundleIconFiles</key>
+			<array>
+				<string>ShelfScoutIcon1024</string>
+			</array>
+			<key>UIPrerenderedIcon</key>
+			<false/>
+		</dict>
+	</dict>
+	<key>CFBundleIdentifier</key>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.0</string>
+	<key>CFBundleVersion</key>
+	<string>1</string>
+	<key>LSSupportsOpeningDocumentsInPlace</key>
+	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>ShelfScout uses the camera to capture product photos and price labels for local product scouting.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>ShelfScout can add your current location to a product scout when you choose to save where you found a product.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>ShelfScout can save a copy of product photos to your Photos library when you choose to do so.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>ShelfScout lets you choose product images from your library for local text recognition and product scouting.</string>
+	<key>UIApplicationSceneManifest</key>
+	<dict>
+		<key>UIApplicationSupportsMultipleScenes</key>
+		<false/>
+	</dict>
+	<key>UTExportedTypeDeclarations</key>
+	<array>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.json</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>ShelfScout Product</string>
+			<key>UTTypeIdentifier</key>
+			<string>com.shelfscout.product</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>shelfscout</string>
+				</array>
+				<key>public.mime-type</key>
+				<string>application/vnd.shelfscout.product+json</string>
+			</dict>
+		</dict>
+	</array>
+</dict>
+</plist>

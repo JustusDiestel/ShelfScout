@@ -1,0 +1,86 @@
+[
+  {
+    "metadataOutputVersion" : "3.0",
+    "shortDescription" : "Tiny placeholder image classifier for ShelfScout local suggestions. Replace with a custom trained model before production use.",
+    "outputSchema" : [
+      {
+        "isOptional" : "0",
+        "keyType" : "String",
+        "formattedType" : "Dictionary (String → Double)",
+        "type" : "Dictionary",
+        "name" : "probabilities",
+        "shortDescription" : ""
+      },
+      {
+        "isOptional" : "0",
+        "formattedType" : "String",
+        "type" : "String",
+        "name" : "classLabel",
+        "shortDescription" : ""
+      }
+    ],
+    "storagePrecision" : "Float32",
+    "modelParameters" : [
+
+    ],
+    "author" : "ShelfScout",
+    "specificationVersion" : 4,
+    "computePrecision" : "Float16",
+    "isUpdatable" : "0",
+    "stateSchema" : [
+
+    ],
+    "availability" : {
+      "macOS" : "10.15",
+      "tvOS" : "13.0",
+      "visionOS" : "1.0",
+      "watchOS" : "6.0",
+      "iOS" : "13.0",
+      "macCatalyst" : "13.0"
+    },
+    "modelType" : {
+      "name" : "MLModelType_neuralNetworkClassifier"
+    },
+    "inputSchema" : [
+      {
+        "height" : "224",
+        "colorspace" : "RGB",
+        "isOptional" : "0",
+        "width" : "224",
+        "isColor" : "1",
+        "formattedType" : "Image (Color 224 × 224)",
+        "hasSizeFlexibility" : "0",
+        "type" : "Image",
+        "shortDescription" : "",
+        "name" : "image"
+      }
+    ],
+    "classLabels" : [
+      "home product",
+      "kitchen bottle",
+      "office item",
+      "beauty cream",
+      "textile fabric",
+      "electronics gadget",
+      "toy",
+      "sports gear",
+      "pet product",
+      "tool",
+      "car accessory",
+      "travel bag",
+      "garden item",
+      "other product"
+    ],
+    "generatedClassName" : "ShelfScoutProductClassifier",
+    "userDefinedMetadata" : {
+
+    },
+    "neuralNetworkLayerTypeHistogram" : {
+      "PoolingAverage" : 1,
+      "Softmax" : 1,
+      "Convolution" : 1,
+      "Flatten" : 1
+    },
+    "method" : "predict"
+  }
+]

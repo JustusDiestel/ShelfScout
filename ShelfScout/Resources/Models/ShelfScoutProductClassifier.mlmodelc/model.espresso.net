@@ -1,0 +1,120 @@
+{
+  "layers" : [
+    {
+      "bottom" : "image",
+      "alpha" : 0.015625,
+      "operation" : 3,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "",
+      "top" : "image__fix__underflow_____constant_conv",
+      "type" : "elementwise",
+      "name" : "constant_conv__fix__underflow___",
+      "beta" : 0
+    },
+    {
+      "pad_r" : 0,
+      "fused_relu" : 0,
+      "fused_tanh" : 0,
+      "debug_info" : "",
+      "pad_fill_mode" : 0,
+      "pad_b" : 0,
+      "pad_l" : 0,
+      "top" : "conv",
+      "blob_weights" : 3,
+      "K" : 3,
+      "blob_biases" : 1,
+      "name" : "constant_conv",
+      "has_batch_norm" : 0,
+      "type" : "convolution",
+      "n_groups" : 1,
+      "pad_t" : 0,
+      "has_biases" : 1,
+      "C" : 14,
+      "bottom" : "image__fix__underflow_____constant_conv",
+      "weights" : {
+
+      },
+      "Nx" : 1,
+      "pad_mode" : 0,
+      "pad_value" : 0,
+      "Ny" : 1,
+      "n_parallel" : 1
+    },
+    {
+      "pad_r" : 0,
+      "debug_info" : "global_average",
+      "pad_fill_mode" : 0,
+      "pad_b" : 0,
+      "pad_l" : 0,
+      "size_x" : 224,
+      "is_global" : 1,
+      "top" : "pooled",
+      "top_shape_style" : 0,
+      "stride_x" : 1,
+      "avg_or_max" : 0,
+      "average_count_exclude_padding" : 1,
+      "type" : "pool",
+      "name" : "global_average",
+      "pad_t" : 0,
+      "stride_y" : 1,
+      "bottom" : "conv",
+      "weights" : {
+
+      },
+      "pad_mode" : 2,
+      "size_y" : 224,
+      "pad_value" : 0
+    },
+    {
+      "bottom" : "pooled",
+      "weights" : {
+
+      },
+      "mode" : 0,
+      "nd_axis" : 0,
+      "debug_info" : "flatten",
+      "top" : "logits",
+      "type" : "flatten",
+      "name" : "flatten"
+    },
+    {
+      "bottom" : "logits",
+      "attributes" : {
+        "is_output" : 1
+      },
+      "weights" : {
+
+      },
+      "debug_info" : "softmax",
+      "top" : "probabilities",
+      "C" : 2,
+      "type" : "softmax",
+      "name" : "softmax"
+    }
+  ],
+  "transform_params" : {
+    "image" : {
+      "bias_a" : 0,
+      "bias_g" : 0,
+      "bias_r" : 0,
+      "bias_b" : 0,
+      "center_mean" : 0,
+      "is_network_bgr" : 0,
+      "scale" : 0.0039215688593685627
+    }
+  },
+  "storage" : "model.espresso.weights",
+  "metadata_in_weights" : [
+
+  ],
+  "properties" : {
+
+  },
+  "analyses" : {
+
+  },
+  "format_version" : 200
+}

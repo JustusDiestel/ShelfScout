@@ -1,0 +1,698 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 60;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A00000000000000000000101 /* ShelfScoutApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000001 /* ShelfScoutApp.swift */; };
+		A00000000000000000000102 /* ProductScout.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000002 /* ProductScout.swift */; };
+		A00000000000000000000103 /* ProductScoutDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000003 /* ProductScoutDTO.swift */; };
+		A00000000000000000000104 /* ScoringService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000004 /* ScoringService.swift */; };
+		A00000000000000000000105 /* OCRParsingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000005 /* OCRParsingService.swift */; };
+		A00000000000000000000106 /* OCRService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000006 /* OCRService.swift */; };
+		A00000000000000000000107 /* ImageStorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000007 /* ImageStorageService.swift */; };
+		A00000000000000000000108 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000008 /* LocationService.swift */; };
+		A00000000000000000000109 /* AppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000009 /* AppError.swift */; };
+		A0000000000000000000010A /* Formatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000000A /* Formatters.swift */; };
+		A0000000000000000000010B /* UTType+ShelfScout.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000000B /* UTType+ShelfScout.swift */; };
+		A0000000000000000000010C /* ShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000000C /* ShareSheet.swift */; };
+		A0000000000000000000010D /* CameraPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000000D /* CameraPicker.swift */; };
+		A0000000000000000000010E /* CSVExportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000000E /* CSVExportService.swift */; };
+		A0000000000000000000010F /* ShelfScoutFileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000000F /* ShelfScoutFileService.swift */; };
+		A00000000000000000000110 /* PDFExportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000010 /* PDFExportService.swift */; };
+		A00000000000000000000111 /* ImageCardExportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000011 /* ImageCardExportService.swift */; };
+		A00000000000000000000112 /* ImportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000012 /* ImportService.swift */; };
+		A00000000000000000000113 /* ScoutEditorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000013 /* ScoutEditorViewModel.swift */; };
+		A00000000000000000000114 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000014 /* MainTabView.swift */; };
+		A00000000000000000000115 /* ScoutListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000015 /* ScoutListView.swift */; };
+		A00000000000000000000116 /* ScoutPhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000016 /* ScoutPhotoView.swift */; };
+		A00000000000000000000117 /* NewScoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000017 /* NewScoutView.swift */; };
+		A00000000000000000000118 /* ScoutEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000018 /* ScoutEditorView.swift */; };
+		A00000000000000000000119 /* DecimalField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000019 /* DecimalField.swift */; };
+		A0000000000000000000011A /* ScoutDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000001A /* ScoutDetailView.swift */; };
+		A0000000000000000000011B /* ExportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000001B /* ExportView.swift */; };
+		A0000000000000000000011C /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000001C /* SettingsView.swift */; };
+		A0000000000000000000011D /* ScoringServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000001D /* ScoringServiceTests.swift */; };
+		A0000000000000000000011E /* MarginCalculationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000001E /* MarginCalculationTests.swift */; };
+		A0000000000000000000011F /* CSVExportServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000001F /* CSVExportServiceTests.swift */; };
+		A00000000000000000000120 /* ShelfScoutFileServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000020 /* ShelfScoutFileServiceTests.swift */; };
+		A00000000000000000000121 /* OCRParsingServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000021 /* OCRParsingServiceTests.swift */; };
+		A00000000000000000000122 /* PersistenceConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000023 /* PersistenceConfiguration.swift */; };
+		A00000000000000000000124 /* ShelfScoutIcon1024.png in Resources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000025 /* ShelfScoutIcon1024.png */; };
+		A00000000000000000000125 /* QuickResearchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000026 /* QuickResearchService.swift */; };
+		A00000000000000000000126 /* QuickResearchServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000027 /* QuickResearchServiceTests.swift */; };
+		A00000000000000000000127 /* ClassificationLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000028 /* ClassificationLabel.swift */; };
+		A00000000000000000000128 /* ProductClassificationResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000029 /* ProductClassificationResult.swift */; };
+		A00000000000000000000129 /* LocalProductClassifierService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000002A /* LocalProductClassifierService.swift */; };
+		A0000000000000000000012A /* ClassificationLabelMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000002B /* ClassificationLabelMapper.swift */; };
+		A0000000000000000000012B /* Components/LocalSuggestionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000002C /* Components/LocalSuggestionsView.swift */; };
+		A0000000000000000000012C /* Models/ShelfScoutProductClassifier.mlmodelc in Resources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000002D /* Models/ShelfScoutProductClassifier.mlmodelc */; };
+		A0000000000000000000012D /* ClassificationLabelMapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000002E /* ClassificationLabelMapperTests.swift */; };
+		A0000000000000000000012E /* PhotoLibrarySaveService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000002F /* PhotoLibrarySaveService.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		A00000000000000000000201 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A00000000000000000000300 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A00000000000000000000400;
+			remoteInfo = ShelfScout;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		A00000000000000000000001 /* ShelfScoutApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShelfScoutApp.swift; sourceTree = "<group>"; };
+		A00000000000000000000002 /* ProductScout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductScout.swift; sourceTree = "<group>"; };
+		A00000000000000000000003 /* ProductScoutDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductScoutDTO.swift; sourceTree = "<group>"; };
+		A00000000000000000000004 /* ScoringService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoringService.swift; sourceTree = "<group>"; };
+		A00000000000000000000005 /* OCRParsingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRParsingService.swift; sourceTree = "<group>"; };
+		A00000000000000000000006 /* OCRService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRService.swift; sourceTree = "<group>"; };
+		A00000000000000000000007 /* ImageStorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageStorageService.swift; sourceTree = "<group>"; };
+		A00000000000000000000008 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
+		A00000000000000000000009 /* AppError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppError.swift; sourceTree = "<group>"; };
+		A0000000000000000000000A /* Formatters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Formatters.swift; sourceTree = "<group>"; };
+		A0000000000000000000000B /* UTType+ShelfScout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UTType+ShelfScout.swift"; sourceTree = "<group>"; };
+		A0000000000000000000000C /* ShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheet.swift; sourceTree = "<group>"; };
+		A0000000000000000000000D /* CameraPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPicker.swift; sourceTree = "<group>"; };
+		A0000000000000000000000E /* CSVExportService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVExportService.swift; sourceTree = "<group>"; };
+		A0000000000000000000000F /* ShelfScoutFileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShelfScoutFileService.swift; sourceTree = "<group>"; };
+		A00000000000000000000010 /* PDFExportService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFExportService.swift; sourceTree = "<group>"; };
+		A00000000000000000000011 /* ImageCardExportService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCardExportService.swift; sourceTree = "<group>"; };
+		A00000000000000000000012 /* ImportService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportService.swift; sourceTree = "<group>"; };
+		A00000000000000000000013 /* ScoutEditorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoutEditorViewModel.swift; sourceTree = "<group>"; };
+		A00000000000000000000014 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
+		A00000000000000000000015 /* ScoutListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoutListView.swift; sourceTree = "<group>"; };
+		A00000000000000000000016 /* ScoutPhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoutPhotoView.swift; sourceTree = "<group>"; };
+		A00000000000000000000017 /* NewScoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewScoutView.swift; sourceTree = "<group>"; };
+		A00000000000000000000018 /* ScoutEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoutEditorView.swift; sourceTree = "<group>"; };
+		A00000000000000000000019 /* DecimalField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecimalField.swift; sourceTree = "<group>"; };
+		A0000000000000000000001A /* ScoutDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoutDetailView.swift; sourceTree = "<group>"; };
+		A0000000000000000000001B /* ExportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportView.swift; sourceTree = "<group>"; };
+		A0000000000000000000001C /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		A0000000000000000000001D /* ScoringServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoringServiceTests.swift; sourceTree = "<group>"; };
+		A0000000000000000000001E /* MarginCalculationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarginCalculationTests.swift; sourceTree = "<group>"; };
+		A0000000000000000000001F /* CSVExportServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVExportServiceTests.swift; sourceTree = "<group>"; };
+		A00000000000000000000020 /* ShelfScoutFileServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShelfScoutFileServiceTests.swift; sourceTree = "<group>"; };
+		A00000000000000000000021 /* OCRParsingServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRParsingServiceTests.swift; sourceTree = "<group>"; };
+		A00000000000000000000022 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A00000000000000000000023 /* PersistenceConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceConfiguration.swift; sourceTree = "<group>"; };
+		A00000000000000000000024 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A00000000000000000000025 /* ShelfScoutIcon1024.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ShelfScoutIcon1024.png; sourceTree = "<group>"; };
+		A00000000000000000000026 /* QuickResearchService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickResearchService.swift; sourceTree = "<group>"; };
+		A00000000000000000000027 /* QuickResearchServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickResearchServiceTests.swift; sourceTree = "<group>"; };
+		A00000000000000000000028 /* ClassificationLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassificationLabel.swift; sourceTree = "<group>"; };
+		A00000000000000000000029 /* ProductClassificationResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductClassificationResult.swift; sourceTree = "<group>"; };
+		A0000000000000000000002A /* LocalProductClassifierService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalProductClassifierService.swift; sourceTree = "<group>"; };
+		A0000000000000000000002B /* ClassificationLabelMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassificationLabelMapper.swift; sourceTree = "<group>"; };
+		A0000000000000000000002C /* Components/LocalSuggestionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Components/LocalSuggestionsView.swift; sourceTree = "<group>"; };
+		A0000000000000000000002D /* Models/ShelfScoutProductClassifier.mlmodelc */ = {isa = PBXFileReference; lastKnownFileType = wrapper.mlmodelc; path = Models/ShelfScoutProductClassifier.mlmodelc; sourceTree = "<group>"; };
+		A0000000000000000000002E /* ClassificationLabelMapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassificationLabelMapperTests.swift; sourceTree = "<group>"; };
+		A0000000000000000000002F /* PhotoLibrarySaveService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoLibrarySaveService.swift; sourceTree = "<group>"; };
+		A00000000000000000000030 /* ShelfScout.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShelfScout.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A00000000000000000000031 /* ShelfScoutTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ShelfScoutTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A00000000000000000000501 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A00000000000000000000502 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A00000000000000000000600 = {
+			isa = PBXGroup;
+			children = (
+				A00000000000000000000601 /* ShelfScout */,
+				A00000000000000000000610 /* ShelfScoutTests */,
+				A00000000000000000000620 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A00000000000000000000601 /* ShelfScout */ = {
+			isa = PBXGroup;
+			children = (
+				A00000000000000000000602 /* App */,
+				A00000000000000000000603 /* Models */,
+				A00000000000000000000604 /* Views */,
+				A00000000000000000000605 /* ViewModels */,
+				A00000000000000000000606 /* Services */,
+				A00000000000000000000607 /* Utilities */,
+				A00000000000000000000608 /* Export */,
+				A00000000000000000000609 /* Import */,
+				A0000000000000000000060A /* Persistence */,
+				A0000000000000000000060B /* Resources */,
+				A00000000000000000000024 /* Assets.xcassets */,
+				A00000000000000000000022 /* Info.plist */,
+			);
+			path = ShelfScout;
+			sourceTree = "<group>";
+		};
+		A00000000000000000000602 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				A00000000000000000000001 /* ShelfScoutApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		A00000000000000000000603 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				A00000000000000000000002 /* ProductScout.swift */,
+				A00000000000000000000003 /* ProductScoutDTO.swift */,
+				A00000000000000000000028 /* ClassificationLabel.swift */,
+				A00000000000000000000029 /* ProductClassificationResult.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		A00000000000000000000604 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				A00000000000000000000014 /* MainTabView.swift */,
+				A00000000000000000000015 /* ScoutListView.swift */,
+				A00000000000000000000016 /* ScoutPhotoView.swift */,
+				A00000000000000000000017 /* NewScoutView.swift */,
+				A00000000000000000000018 /* ScoutEditorView.swift */,
+				A0000000000000000000002C /* Components/LocalSuggestionsView.swift */,
+				A00000000000000000000019 /* DecimalField.swift */,
+				A0000000000000000000001A /* ScoutDetailView.swift */,
+				A0000000000000000000001B /* ExportView.swift */,
+				A0000000000000000000001C /* SettingsView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		A00000000000000000000605 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				A00000000000000000000013 /* ScoutEditorViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		A00000000000000000000606 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				A00000000000000000000004 /* ScoringService.swift */,
+				A00000000000000000000005 /* OCRParsingService.swift */,
+				A00000000000000000000006 /* OCRService.swift */,
+				A00000000000000000000007 /* ImageStorageService.swift */,
+				A00000000000000000000008 /* LocationService.swift */,
+				A00000000000000000000026 /* QuickResearchService.swift */,
+				A0000000000000000000002A /* LocalProductClassifierService.swift */,
+				A0000000000000000000002F /* PhotoLibrarySaveService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		A00000000000000000000607 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				A00000000000000000000009 /* AppError.swift */,
+				A0000000000000000000000A /* Formatters.swift */,
+				A0000000000000000000002B /* ClassificationLabelMapper.swift */,
+				A0000000000000000000000B /* UTType+ShelfScout.swift */,
+				A0000000000000000000000C /* ShareSheet.swift */,
+				A0000000000000000000000D /* CameraPicker.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		A00000000000000000000608 /* Export */ = {
+			isa = PBXGroup;
+			children = (
+				A0000000000000000000000E /* CSVExportService.swift */,
+				A0000000000000000000000F /* ShelfScoutFileService.swift */,
+				A00000000000000000000010 /* PDFExportService.swift */,
+				A00000000000000000000011 /* ImageCardExportService.swift */,
+			);
+			path = Export;
+			sourceTree = "<group>";
+		};
+		A00000000000000000000609 /* Import */ = {
+			isa = PBXGroup;
+			children = (
+				A00000000000000000000012 /* ImportService.swift */,
+			);
+			path = Import;
+			sourceTree = "<group>";
+		};
+		A0000000000000000000060A /* Persistence */ = {
+			isa = PBXGroup;
+			children = (
+				A00000000000000000000023 /* PersistenceConfiguration.swift */,
+			);
+			path = Persistence;
+			sourceTree = "<group>";
+		};
+		A0000000000000000000060B /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				A00000000000000000000025 /* ShelfScoutIcon1024.png */,
+				A0000000000000000000002D /* Models/ShelfScoutProductClassifier.mlmodelc */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		A00000000000000000000610 /* ShelfScoutTests */ = {
+			isa = PBXGroup;
+			children = (
+				A0000000000000000000001D /* ScoringServiceTests.swift */,
+				A0000000000000000000001E /* MarginCalculationTests.swift */,
+				A0000000000000000000001F /* CSVExportServiceTests.swift */,
+				A00000000000000000000020 /* ShelfScoutFileServiceTests.swift */,
+				A00000000000000000000021 /* OCRParsingServiceTests.swift */,
+				A00000000000000000000027 /* QuickResearchServiceTests.swift */,
+				A0000000000000000000002E /* ClassificationLabelMapperTests.swift */,
+			);
+			path = ShelfScoutTests;
+			sourceTree = "<group>";
+		};
+		A00000000000000000000620 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A00000000000000000000030 /* ShelfScout.app */,
+				A00000000000000000000031 /* ShelfScoutTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A00000000000000000000400 /* ShelfScout */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A00000000000000000000701 /* Build configuration list for PBXNativeTarget "ShelfScout" */;
+			buildPhases = (
+				A00000000000000000000511 /* Sources */,
+				A00000000000000000000501 /* Frameworks */,
+				A00000000000000000000521 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ShelfScout;
+			productName = ShelfScout;
+			productReference = A00000000000000000000030 /* ShelfScout.app */;
+			productType = "com.apple.product-type.application";
+		};
+		A00000000000000000000401 /* ShelfScoutTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A00000000000000000000702 /* Build configuration list for PBXNativeTarget "ShelfScoutTests" */;
+			buildPhases = (
+				A00000000000000000000512 /* Sources */,
+				A00000000000000000000502 /* Frameworks */,
+				A00000000000000000000522 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A00000000000000000000202 /* PBXTargetDependency */,
+			);
+			name = ShelfScoutTests;
+			productName = ShelfScoutTests;
+			productReference = A00000000000000000000031 /* ShelfScoutTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A00000000000000000000300 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2620;
+				LastUpgradeCheck = 2620;
+				TargetAttributes = {
+					A00000000000000000000400 = {
+						CreatedOnToolsVersion = 26.2;
+					};
+					A00000000000000000000401 = {
+						CreatedOnToolsVersion = 26.2;
+						TestTargetID = A00000000000000000000400;
+					};
+				};
+			};
+			buildConfigurationList = A00000000000000000000700 /* Build configuration list for PBXProject "ShelfScout" */;
+			compatibilityVersion = "Xcode 15.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = A00000000000000000000600;
+			productRefGroup = A00000000000000000000620 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A00000000000000000000400 /* ShelfScout */,
+				A00000000000000000000401 /* ShelfScoutTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A00000000000000000000521 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A00000000000000000000124 /* ShelfScoutIcon1024.png in Resources */,
+				A0000000000000000000012C /* Models/ShelfScoutProductClassifier.mlmodelc in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A00000000000000000000522 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A00000000000000000000511 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A00000000000000000000101 /* ShelfScoutApp.swift in Sources */,
+				A00000000000000000000122 /* PersistenceConfiguration.swift in Sources */,
+				A00000000000000000000102 /* ProductScout.swift in Sources */,
+				A00000000000000000000103 /* ProductScoutDTO.swift in Sources */,
+				A00000000000000000000127 /* ClassificationLabel.swift in Sources */,
+				A00000000000000000000128 /* ProductClassificationResult.swift in Sources */,
+				A00000000000000000000104 /* ScoringService.swift in Sources */,
+				A00000000000000000000105 /* OCRParsingService.swift in Sources */,
+				A00000000000000000000106 /* OCRService.swift in Sources */,
+				A00000000000000000000107 /* ImageStorageService.swift in Sources */,
+				A00000000000000000000108 /* LocationService.swift in Sources */,
+				A00000000000000000000125 /* QuickResearchService.swift in Sources */,
+				A00000000000000000000129 /* LocalProductClassifierService.swift in Sources */,
+				A0000000000000000000012E /* PhotoLibrarySaveService.swift in Sources */,
+				A00000000000000000000109 /* AppError.swift in Sources */,
+				A0000000000000000000010A /* Formatters.swift in Sources */,
+				A0000000000000000000012A /* ClassificationLabelMapper.swift in Sources */,
+				A0000000000000000000010B /* UTType+ShelfScout.swift in Sources */,
+				A0000000000000000000010C /* ShareSheet.swift in Sources */,
+				A0000000000000000000010D /* CameraPicker.swift in Sources */,
+				A0000000000000000000010E /* CSVExportService.swift in Sources */,
+				A0000000000000000000010F /* ShelfScoutFileService.swift in Sources */,
+				A00000000000000000000110 /* PDFExportService.swift in Sources */,
+				A00000000000000000000111 /* ImageCardExportService.swift in Sources */,
+				A00000000000000000000112 /* ImportService.swift in Sources */,
+				A00000000000000000000113 /* ScoutEditorViewModel.swift in Sources */,
+				A00000000000000000000114 /* MainTabView.swift in Sources */,
+				A00000000000000000000115 /* ScoutListView.swift in Sources */,
+				A00000000000000000000116 /* ScoutPhotoView.swift in Sources */,
+				A00000000000000000000117 /* NewScoutView.swift in Sources */,
+				A00000000000000000000118 /* ScoutEditorView.swift in Sources */,
+				A00000000000000000000119 /* DecimalField.swift in Sources */,
+				A0000000000000000000011A /* ScoutDetailView.swift in Sources */,
+				A0000000000000000000011B /* ExportView.swift in Sources */,
+				A0000000000000000000011C /* SettingsView.swift in Sources */,
+				A0000000000000000000012B /* Components/LocalSuggestionsView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A00000000000000000000512 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A0000000000000000000011D /* ScoringServiceTests.swift in Sources */,
+				A0000000000000000000011E /* MarginCalculationTests.swift in Sources */,
+				A0000000000000000000011F /* CSVExportServiceTests.swift in Sources */,
+				A00000000000000000000120 /* ShelfScoutFileServiceTests.swift in Sources */,
+				A00000000000000000000121 /* OCRParsingServiceTests.swift in Sources */,
+				A00000000000000000000126 /* QuickResearchServiceTests.swift in Sources */,
+				A0000000000000000000012D /* ClassificationLabelMapperTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		A00000000000000000000202 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A00000000000000000000400 /* ShelfScout */;
+			targetProxy = A00000000000000000000201 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		A00000000000000000000801 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		A00000000000000000000802 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		A00000000000000000000811 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = LHPUJTK37S;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = ShelfScout/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.justusdiestel.shelfscout;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		A00000000000000000000812 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = LHPUJTK37S;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = ShelfScout/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.justusdiestel.shelfscout;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		A00000000000000000000821 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.shelfscout.app.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ShelfScout.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ShelfScout";
+			};
+			name = Debug;
+		};
+		A00000000000000000000822 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.shelfscout.app.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ShelfScout.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ShelfScout";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A00000000000000000000700 /* Build configuration list for PBXProject "ShelfScout" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A00000000000000000000801 /* Debug */,
+				A00000000000000000000802 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A00000000000000000000701 /* Build configuration list for PBXNativeTarget "ShelfScout" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A00000000000000000000811 /* Debug */,
+				A00000000000000000000812 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A00000000000000000000702 /* Build configuration list for PBXNativeTarget "ShelfScoutTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A00000000000000000000821 /* Debug */,
+				A00000000000000000000822 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A00000000000000000000300 /* Project object */;
+}
