@@ -2,56 +2,40 @@ import Foundation
 
 enum CSVExportService {
     static let headers = [
-        "title", "category", "storeName", "locationLabel", "dateSeen",
+        "title", "category", "status", "storeName", "locationLabel", "dateSeen",
         "observedStorePrice", "estimatedPurchasePrice", "estimatedSalePrice",
-        "estimatedGrossProfit", "estimatedMarginPercent", "riskLevel",
-        "scoutScore", "status", "notes", "researchQuery", "amazonChecked",
-        "ebayChecked", "googleShoppingChecked", "googleImagesChecked",
-        "alibabaChecked", "aliexpressChecked", "etsyChecked", "tiktokChecked",
-        "instagramChecked", "similarProductsFound", "estimatedCompetitionLevel",
-        "competitorNotes", "classifierSuggestedCategory", "classifierSuggestedTags",
-        "classifierSuggestedRiskIndicators", "classifierConfidence", "classifierLastRunAt"
+        "estimatedGrossProfit", "estimatedMarginPercent", "currency",
+        "detectedBarcode", "detectedWeight", "detectedDimensions", "notes", "imageCount"
     ]
 
     static func csv(for scouts: [ProductScout]) -> String {
         var rows = [headers.map(escape).joined(separator: ",")]
-        rows += scouts.map { scout in
-            [
-                scout.title,
-                scout.category,
-                scout.storeName,
-                scout.locationLabel,
-                ISO8601DateFormatter().string(from: scout.dateSeen),
-                AppFormatters.decimalString(scout.observedStorePrice),
-                AppFormatters.decimalString(scout.estimatedPurchasePrice),
-                AppFormatters.decimalString(scout.estimatedSalePrice),
-                AppFormatters.decimalString(scout.estimatedGrossProfit),
-                AppFormatters.decimalString(scout.estimatedMarginPercent),
-                scout.riskLevel,
-                String(scout.scoutScore),
-                scout.status,
-                scout.notes,
-                scout.resolvedResearchQuery,
-                String(scout.amazonChecked),
-                String(scout.ebayChecked),
-                String(scout.googleShoppingChecked),
-                String(scout.googleImagesChecked),
-                String(scout.alibabaChecked),
-                String(scout.aliexpressChecked),
-                String(scout.etsyChecked),
-                String(scout.tiktokChecked),
-                String(scout.instagramChecked),
-                String(scout.similarProductsFound),
-                scout.estimatedCompetitionLevel,
-                scout.competitorNotes,
-                scout.classifierSuggestedCategory ?? "",
-                scout.classifierSuggestedTags.joined(separator: "; "),
-                scout.classifierSuggestedRiskIndicators.joined(separator: "; "),
-                scout.classifierConfidence.map { String($0) } ?? "",
-                scout.classifierLastRunAt.map { ISO8601DateFormatter().string(from: $0) } ?? ""
-            ].map(escape).joined(separator: ",")
-        }
+        rows += scouts.map(row)
         return rows.joined(separator: "\n")
+    }
+
+    private static func row(for scout: ProductScout) -> String {
+        let formatter = ISO8601DateFormatter()
+        let values: [String] = [
+            scout.title,
+            scout.category,
+            scout.status,
+            scout.storeName,
+            scout.locationLabel,
+            formatter.string(from: scout.dateSeen),
+            AppFormatters.decimalString(scout.observedStorePrice),
+            AppFormatters.decimalString(scout.estimatedPurchasePrice),
+            AppFormatters.decimalString(scout.estimatedSalePrice),
+            AppFormatters.decimalString(scout.estimatedGrossProfit),
+            AppFormatters.decimalString(scout.estimatedMarginPercent),
+            scout.currency,
+            scout.detectedBarcode ?? "",
+            scout.detectedWeight ?? "",
+            scout.detectedDimensions ?? "",
+            scout.notes,
+            String(scout.imageLocalPaths.count)
+        ]
+        return values.map(escape).joined(separator: ",")
     }
 
     static func writeCSV(for scouts: [ProductScout], filename: String = "ShelfScout.csv") throws -> URL {

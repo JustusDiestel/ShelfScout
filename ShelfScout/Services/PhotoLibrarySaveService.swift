@@ -2,13 +2,16 @@ import Photos
 import UIKit
 
 enum PhotoLibrarySavePreference: String, CaseIterable, Identifiable {
-    case askEveryTime = "Ask Every Time"
-    case always = "Always"
-    case never = "Never"
+    case on = "On"
+    case off = "Off"
 
     static let storageKey = "photoLibrarySavePreference"
 
     var id: String { rawValue }
+
+    static func resolved(from rawValue: String) -> PhotoLibrarySavePreference {
+        PhotoLibrarySavePreference(rawValue: rawValue) ?? .on
+    }
 }
 
 enum PhotoLibrarySaveError: LocalizedError {
@@ -19,7 +22,7 @@ enum PhotoLibrarySaveError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .denied:
-            "Photos permission denied. You can enable it in Settings."
+            "Photo saved in ShelfScout only. Photos permission is disabled."
         case .restricted:
             "Photos permission is restricted. Photo was saved in ShelfScout only."
         case .failed:

@@ -1,6 +1,8 @@
 import Foundation
 
 enum ClassificationLabelMapper {
+    private static let minimumSuggestionConfidence = 0.35
+
     static func map(labels: [ClassificationLabel]) -> ProductClassificationResult {
         let category = suggestedCategory(from: labels)
         let risks = suggestedRiskIndicators(from: labels)
@@ -16,7 +18,8 @@ enum ClassificationLabelMapper {
     }
 
     static func suggestedCategory(from labels: [ClassificationLabel]) -> String? {
-        let text = combined(labels)
+        guard (labels.first?.confidence ?? 0) >= minimumSuggestionConfidence else { return nil }
+        let text = combined(confidentLabels(labels))
         let mappings: [(String, [String])] = [
             ("Electronics", ["laptop", "charger", "remote", "speaker", "headphones", "phone", "camera", "computer", "keyboard"]),
             ("Kitchen", ["bottle", "cup", "plate", "spoon", "lunchbox", "kitchen", "jar", "mug", "pan"]),
@@ -35,11 +38,12 @@ enum ClassificationLabelMapper {
 
         return mappings.first { _, keywords in
             keywords.contains { text.contains($0) }
-        }?.0 ?? (labels.isEmpty ? nil : "Other")
+        }?.0 ?? "Other"
     }
 
     static func suggestedRiskIndicators(from labels: [ClassificationLabel]) -> [String] {
-        let text = combined(labels)
+        let text = combined(confidentLabels(labels))
+        guard !text.isEmpty else { return [] }
         var indicators: [String] = []
         if containsAny(text, ["laptop", "charger", "remote", "speaker", "headphones", "phone", "electronic"]) {
             indicators.append("possibleElectronics")
@@ -69,7 +73,7 @@ enum ClassificationLabelMapper {
     }
 
     private static func suggestedTags(from labels: [ClassificationLabel], category: String?, risks: [String]) -> [String] {
-        let labelTags = labels.prefix(3).map { $0.label.lowercased() }
+        let labelTags = confidentLabels(labels).prefix(3).map { $0.label.lowercased() }
         return ([category?.lowercased()] + labelTags + risks.map { $0.replacingOccurrences(of: "possible", with: "").lowercased() })
             .compactMap { $0?.trimmingCharacters(in: .whitespacesAndNewlines) }
             .filter { !$0.isEmpty }
@@ -78,6 +82,10 @@ enum ClassificationLabelMapper {
 
     private static func combined(_ labels: [ClassificationLabel]) -> String {
         labels.map(\.label).joined(separator: " ").lowercased()
+    }
+
+    private static func confidentLabels(_ labels: [ClassificationLabel]) -> [ClassificationLabel] {
+        labels.filter { $0.confidence >= minimumSuggestionConfidence }
     }
 
     private static func containsAny(_ text: String, _ keywords: [String]) -> Bool {

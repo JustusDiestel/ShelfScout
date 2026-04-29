@@ -4,115 +4,122 @@ import SwiftUI
 
 struct NewScoutView: View {
     @Environment(\.modelContext) private var modelContext
-    @AppStorage(PhotoLibrarySavePreference.storageKey) private var photoSavePreferenceRaw = PhotoLibrarySavePreference.askEveryTime.rawValue
-    @State private var selectedPhoto: PhotosPickerItem?
+    @AppStorage(PhotoLibrarySavePreference.storageKey) private var photoSavePreferenceRaw = PhotoLibrarySavePreference.on.rawValue
+    @State private var selectedPhotos: [PhotosPickerItem] = []
+    @State private var previewImages: [UIImage] = []
     @State private var createdScout: ProductScout?
     @State private var showingCamera = false
-    @State private var pendingPhotosImage: UIImage?
-    @State private var pendingCreatedScout: ProductScout?
-    @State private var showingSaveToPhotosConfirmation = false
     @StateObject private var viewModel = ScoutEditorViewModel()
     private let photoLibrarySaveService = PhotoLibrarySaveService()
 
     var body: some View {
         NavigationStack {
-            VStack(spacing: 16) {
-                Spacer(minLength: 20)
-                Image(systemName: "plus.viewfinder")
-                    .font(.system(size: 54))
-                    .foregroundStyle(Color.accentColor)
-                    .accessibilityHidden(true)
-
-                Text("Create a product scout")
-                    .font(.title2.bold())
-                Text("Capture a product idea, run on-device OCR, review the fields, and save it locally.")
-                    .font(.body)
-                    .foregroundStyle(.secondary)
-                    .multilineTextAlignment(.center)
-                    .padding(.horizontal)
-
-                Button {
-                    if UIImagePickerController.isSourceTypeAvailable(.camera) {
-                        showingCamera = true
-                    } else {
-                        viewModel.message = "Camera is not available here. You can choose an image or continue manually."
+            ScrollView {
+                VStack(alignment: .leading, spacing: 20) {
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("New Scout")
+                            .font(.title2.bold())
+                        Text("Capture a product idea from photos or create one manually.")
+                            .font(.body)
+                            .foregroundStyle(.secondary)
                     }
-                } label: {
-                    Label("Take Photo", systemImage: "camera.fill")
-                        .frame(maxWidth: .infinity)
-                }
-                .buttonStyle(.borderedProminent)
-                .controlSize(.large)
-                .accessibilityLabel("Take product photo")
 
-                PhotosPicker(selection: $selectedPhoto, matching: .images) {
-                    Label("Choose Image", systemImage: "photo.on.rectangle")
-                        .frame(maxWidth: .infinity)
-                }
-                .buttonStyle(.bordered)
-                .controlSize(.large)
+                    VStack(spacing: 12) {
+                        Button {
+                            if UIImagePickerController.isSourceTypeAvailable(.camera) {
+                                showingCamera = true
+                            } else {
+                                viewModel.message = "Camera is not available here. You can choose an image or continue manually."
+                            }
+                        } label: {
+                            Label("Take Photos", systemImage: "camera.fill")
+                                .frame(maxWidth: .infinity)
+                        }
+                        .buttonStyle(.borderedProminent)
+                        .controlSize(.large)
+                        .accessibilityLabel("Take product photo")
 
-                Button {
-                    openScout(ProductScout())
-                } label: {
-                    Label("Manual Entry", systemImage: "square.and.pencil")
-                        .frame(maxWidth: .infinity)
-                }
-                .buttonStyle(.bordered)
-                .controlSize(.large)
+                        PhotosPicker(selection: $selectedPhotos, maxSelectionCount: ProductScout.maxImageCount, matching: .images) {
+                            Label("Choose Photos", systemImage: "photo.on.rectangle")
+                                .frame(maxWidth: .infinity)
+                        }
+                        .buttonStyle(.bordered)
+                        .controlSize(.large)
 
-                if viewModel.isRunningOCR {
-                    ProgressView("Reading text locally...")
+                        Button {
+                            openScout(ProductScout())
+                        } label: {
+                            Label("Manual Entry", systemImage: "square.and.pencil")
+                                .frame(maxWidth: .infinity)
+                        }
+                        .buttonStyle(.bordered)
+                        .controlSize(.large)
+                    }
+
+                    if !previewImages.isEmpty {
+                        selectedImagesPreview
+                    }
+
+                    if viewModel.isAnalyzingImages {
+                        ProgressView("Analyzing images locally...")
+                    }
+                    if let message = viewModel.message {
+                        Text(message)
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
+                    }
                 }
-                if let message = viewModel.message {
-                    Text(message)
-                        .font(.footnote)
-                        .foregroundStyle(.secondary)
-                }
-                Spacer()
+                .padding(.horizontal)
+                .padding(.vertical, 20)
             }
-            .padding()
             .navigationTitle("New Scout")
             .navigationDestination(item: $createdScout) { scout in
                 ScoutEditorView(scout: scout)
             }
-            .sheet(isPresented: $showingCamera) {
+            .fullScreenCover(isPresented: $showingCamera) {
                 CameraPicker { image in
                     let scout = ProductScout()
                     modelContext.insert(scout)
                     Task { await viewModel.applyImage(image, to: scout) }
-                    handleCapturedPhotoSavePreference(image, scout: scout)
+                    createdScout = scout
+                    saveCapturedPhotoIfEnabled(image)
                 }
                 .ignoresSafeArea()
             }
-            .confirmationDialog("Save a copy to Photos", isPresented: $showingSaveToPhotosConfirmation, titleVisibility: .visible) {
-                Button("Save a copy to Photos") {
-                    if let image = pendingPhotosImage {
-                        Task { await saveCopyToPhotos(image) }
-                    }
-                    if let scout = pendingCreatedScout {
-                        createdScout = scout
-                    }
-                    pendingPhotosImage = nil
-                    pendingCreatedScout = nil
-                }
-                Button("Keep in ShelfScout Only", role: .cancel) {
-                    if let scout = pendingCreatedScout {
-                        createdScout = scout
-                    }
-                    pendingPhotosImage = nil
-                    pendingCreatedScout = nil
-                    viewModel.message = "Photo was saved in ShelfScout only."
-                }
-            } message: {
-                Text("Photos saved to Apple Photos may sync with iCloud depending on your personal iCloud settings.")
-            }
-            .onChange(of: selectedPhoto) { _, newValue in
+            .onChange(of: selectedPhotos) { _, newValue in
+                guard !newValue.isEmpty else { return }
                 let scout = ProductScout()
                 openScout(scout)
-                Task { await viewModel.loadPhotoPickerItem(newValue, into: scout) }
+                Task {
+                    previewImages = await loadPreviewImages(from: newValue)
+                    await viewModel.loadPhotoPickerItems(newValue, into: scout)
+                    selectedPhotos = []
+                }
             }
         }
+    }
+
+    private var selectedImagesPreview: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text("Selected images")
+                .font(.headline)
+            Text("Images \(previewImages.count)/\(ProductScout.maxImageCount)")
+                .font(.footnote)
+                .foregroundStyle(.secondary)
+
+            LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 8), count: 2), spacing: 8) {
+                ForEach(Array(previewImages.enumerated()), id: \.offset) { _, image in
+                    Image(uiImage: image)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(maxWidth: .infinity)
+                        .aspectRatio(4 / 3, contentMode: .fit)
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                }
+            }
+        }
+        .padding(14)
+        .background(.thinMaterial, in: RoundedRectangle(cornerRadius: 16, style: .continuous))
     }
 
     private func openScout(_ scout: ProductScout) {
@@ -121,22 +128,12 @@ struct NewScoutView: View {
     }
 
     private var photoSavePreference: PhotoLibrarySavePreference {
-        PhotoLibrarySavePreference(rawValue: photoSavePreferenceRaw) ?? .askEveryTime
+        PhotoLibrarySavePreference.resolved(from: photoSavePreferenceRaw)
     }
 
-    private func handleCapturedPhotoSavePreference(_ image: UIImage, scout: ProductScout) {
-        switch photoSavePreference {
-        case .askEveryTime:
-            pendingCreatedScout = scout
-            pendingPhotosImage = image
-            showingSaveToPhotosConfirmation = true
-        case .always:
-            createdScout = scout
-            Task { await saveCopyToPhotos(image) }
-        case .never:
-            createdScout = scout
-            break
-        }
+    private func saveCapturedPhotoIfEnabled(_ image: UIImage) {
+        guard photoSavePreference == .on else { return }
+        Task { await saveCopyToPhotos(image) }
     }
 
     private func saveCopyToPhotos(_ image: UIImage) async {
@@ -146,5 +143,16 @@ struct NewScoutView: View {
         } catch {
             viewModel.message = error.localizedDescription
         }
+    }
+
+    private func loadPreviewImages(from items: [PhotosPickerItem]) async -> [UIImage] {
+        var images: [UIImage] = []
+        for item in items.prefix(ProductScout.maxImageCount) {
+            if let data = try? await item.loadTransferable(type: Data.self),
+               let image = UIImage(data: data) {
+                images.append(image)
+            }
+        }
+        return images
     }
 }

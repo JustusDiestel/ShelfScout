@@ -88,7 +88,7 @@ struct ScoutListView: View {
     private func delete(at offsets: IndexSet) {
         for index in offsets {
             let scout = filteredScouts[index]
-            ImageStorageService.delete(path: scout.productPhotoLocalPath)
+            ImageStorageService.delete(paths: scout.imageLocalPaths)
             modelContext.delete(scout)
         }
     }
@@ -99,7 +99,7 @@ struct ScoutCardView: View {
 
     var body: some View {
         HStack(spacing: 12) {
-            ScoutPhotoView(path: scout.productPhotoLocalPath)
+            ScoutPhotoView(path: scout.primaryImagePath)
                 .frame(width: 64, height: 64)
                 .clipShape(RoundedRectangle(cornerRadius: 8))
                 .accessibilityLabel("Product photo")

@@ -8,32 +8,20 @@ private struct RiskSuggestionChange: Identifiable {
 
 struct LocalSuggestionsView: View {
     @Bindable var scout: ProductScout
-    @State private var isAnalyzing = false
     @State private var message: String?
     @State private var pendingRiskChanges: [RiskSuggestionChange] = []
     @State private var showingRiskConfirmation = false
 
-    private let classifier = LocalProductClassifierService()
-
     var body: some View {
         Section("Local Suggestions") {
-            Text("Suggestions are generated on this iPhone from the product photo. They may be inaccurate and should be reviewed manually.")
+            Text("Suggestions are generated on this iPhone from attached product images. They may be inaccurate and should be reviewed manually.")
                 .font(.footnote)
                 .foregroundStyle(.secondary)
 
-            if scout.productPhotoLocalPath == nil {
-                Text("Add a product photo before running local suggestions.")
+            if !scout.hasClassifierSuggestions {
+                Text("Use Analyze All Images Locally in Image Analysis to generate suggestions.")
                     .font(.footnote)
                     .foregroundStyle(.secondary)
-            } else {
-                Button("Analyze Photo Locally", systemImage: "sparkle.magnifyingglass") {
-                    Task { await analyzePhoto() }
-                }
-                .disabled(isAnalyzing)
-            }
-
-            if isAnalyzing {
-                ProgressView("Generating local suggestions...")
             }
 
             if let message {
@@ -123,24 +111,6 @@ struct LocalSuggestionsView: View {
     private var confidenceText: String {
         guard let confidence = scout.classifierConfidence else { return "Not set" }
         return AppFormatters.percent(Decimal(confidence * 100))
-    }
-
-    private func analyzePhoto() async {
-        guard let path = scout.productPhotoLocalPath, let image = ImageStorageService.load(path: path) else {
-            message = "Add a product photo before running local suggestions."
-            return
-        }
-
-        isAnalyzing = true
-        defer { isAnalyzing = false }
-
-        do {
-            let result = try await classifier.classify(image: image)
-            scout.applyClassificationResult(result)
-            message = result.confidence < 0.2 ? "Low-confidence suggestion. Review carefully." : nil
-        } catch {
-            message = error.localizedDescription
-        }
     }
 
     private func addSuggestedTags() {

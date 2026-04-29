@@ -30,9 +30,17 @@ enum ImageStorageService {
         try? FileManager.default.removeItem(atPath: path)
     }
 
+    static func delete(paths: [String]) {
+        paths.forEach { delete(path: $0) }
+    }
+
     static func jpegBase64(path: String?) -> String? {
         guard let path, let data = try? Data(contentsOf: URL(filePath: path)) else { return nil }
         return data.base64EncodedString()
+    }
+
+    static func jpegBase64s(paths: [String]) -> [String] {
+        paths.compactMap { jpegBase64(path: $0) }
     }
 
     private static func imageDirectory() throws -> URL {

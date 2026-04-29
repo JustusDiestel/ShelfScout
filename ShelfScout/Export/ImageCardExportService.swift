@@ -20,7 +20,7 @@ enum ImageCardExportService {
 
             let padding: CGFloat = 72
             let photoRect = CGRect(x: padding, y: 72, width: 936, height: 560)
-            if let photo = ImageStorageService.load(path: scout.productPhotoLocalPath) {
+            if let photo = ImageStorageService.load(path: scout.primaryImagePath) {
                 photo.draw(in: photoRect)
             } else {
                 UIColor.secondarySystemBackground.setFill()

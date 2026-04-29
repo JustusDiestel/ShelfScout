@@ -5,15 +5,41 @@ import UniformTypeIdentifiers
 struct ExportView: View {
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \ProductScout.updatedAt, order: .reverse) private var scouts: [ProductScout]
-    @State private var shareItems: [Any] = []
-    @State private var showingShare = false
     @State private var showingImporter = false
     @State private var importTypes: [UTType] = [.shelfScoutProduct]
     @State private var message: String?
+    @State private var selectedScoutID: UUID?
 
     var body: some View {
         NavigationStack {
             List {
+                Section("PDF Export") {
+                    Button("Export All as PDF", systemImage: "doc.on.doc") {
+                        do { present(try PDFExportService.writePDF(for: scouts, filename: "ShelfScout Scouts.pdf")) } catch { message = error.localizedDescription }
+                    }
+                    .disabled(scouts.isEmpty)
+
+                    if scouts.isEmpty {
+                        Text("Create a scout before exporting PDFs.")
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
+                    } else {
+                        Picker("Selected scout", selection: $selectedScoutID) {
+                            ForEach(scouts) { scout in
+                                Text(scout.displayTitle).tag(Optional(scout.id))
+                            }
+                        }
+
+                        Button("Export Selected as PDF", systemImage: "doc.richtext") {
+                            guard let scout = selectedScout else {
+                                message = "Select a scout before exporting a PDF."
+                                return
+                            }
+                            do { present(try PDFExportService.writePDF(for: scout)) } catch { message = error.localizedDescription }
+                        }
+                    }
+                }
+
                 Section("Export") {
                     Button("Export all as CSV", systemImage: "tablecells") {
                         do { present(try CSVExportService.writeCSV(for: scouts)) } catch { message = error.localizedDescription }
@@ -52,11 +78,14 @@ struct ExportView: View {
                 }
             }
             .navigationTitle("Export / Files")
-            .sheet(isPresented: $showingShare) {
-                ShareSheet(items: shareItems)
-            }
             .fileImporter(isPresented: $showingImporter, allowedContentTypes: importTypes) { result in
                 handleImport(result)
+            }
+            .onAppear {
+                syncSelectedScout()
+            }
+            .onChange(of: scouts.map(\.id)) { _, _ in
+                syncSelectedScout()
             }
             .alert("ShelfScout", isPresented: Binding(get: { message != nil }, set: { _ in message = nil })) {
                 Button("OK", role: .cancel) {}
@@ -67,8 +96,28 @@ struct ExportView: View {
     }
 
     private func present(_ url: URL) {
-        shareItems = [url]
-        showingShare = true
+        do {
+            try SharePresenter.present(items: [ExportFileValidator.validate(url)])
+        } catch {
+            message = error.localizedDescription
+        }
+    }
+
+    private var selectedScout: ProductScout? {
+        guard let selectedScoutID else { return scouts.first }
+        return scouts.first(where: { $0.id == selectedScoutID }) ?? scouts.first
+    }
+
+    private func syncSelectedScout() {
+        guard !scouts.isEmpty else {
+            selectedScoutID = nil
+            return
+        }
+
+        if let selectedScoutID, scouts.contains(where: { $0.id == selectedScoutID }) {
+            return
+        }
+        selectedScoutID = scouts.first?.id
     }
 
     private func handleImport(_ result: Result<URL, Error>) {
@@ -111,25 +160,12 @@ struct ExportView: View {
             throw AppError.message("The selected image could not be opened.")
         }
         let scout = ProductScout()
-        scout.productPhotoLocalPath = try ImageStorageService.save(image)
+        let path = try ImageStorageService.save(image)
+        scout.addImageLocalPath(path)
         return [scout]
     }
 
     private func runOCR(for scout: ProductScout) async {
-        guard let image = ImageStorageService.load(path: scout.productPhotoLocalPath) else { return }
-        do {
-            let text = try await OCRService().recognizeText(from: image)
-            scout.recognizedText = text
-            let parsed = OCRParsingService.parse(text)
-            scout.title = parsed.possibleTitle ?? scout.title
-            if scout.researchQuery.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                scout.researchQuery = ProductScout.defaultResearchQuery(title: scout.title, category: scout.category)
-            }
-            scout.observedStorePrice = parsed.price ?? scout.observedStorePrice
-            scout.detectedBarcodeOrEAN = parsed.barcode ?? scout.detectedBarcodeOrEAN
-            scout.updatedAt = Date()
-        } catch {
-            message = "Imported the image, but OCR could not read it. You can edit the scout manually."
-        }
+        await ScoutEditorViewModel().analyzeAllImages(for: scout, runClassifier: false)
     }
 }

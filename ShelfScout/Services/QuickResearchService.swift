@@ -45,30 +45,80 @@ enum QuickResearchPlatform: String, CaseIterable, Identifiable {
 enum QuickResearchService {
     static func url(for platform: QuickResearchPlatform, query: String) -> URL? {
         let trimmed = query.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !trimmed.isEmpty, let encodedQuery = encode(trimmed) else { return nil }
+        guard isMeaningfulResearchQuery(trimmed) else { return nil }
 
-        let urlString: String
+        var components = URLComponents()
+        components.scheme = "https"
+
         switch platform {
         case .amazon:
-            urlString = "https://www.amazon.de/s?k=\(encodedQuery)"
+            components.host = "www.amazon.de"
+            components.path = "/s"
+            components.queryItems = [URLQueryItem(name: "k", value: trimmed)]
         case .ebay:
-            urlString = "https://www.ebay.de/sch/i.html?_nkw=\(encodedQuery)"
+            components.host = "www.ebay.de"
+            components.path = "/sch/i.html"
+            components.queryItems = [URLQueryItem(name: "_nkw", value: trimmed)]
         case .googleShopping:
-            urlString = "https://www.google.com/search?tbm=shop&q=\(encodedQuery)"
+            components.host = "www.google.com"
+            components.path = "/search"
+            components.queryItems = [URLQueryItem(name: "tbm", value: "shop"), URLQueryItem(name: "q", value: trimmed)]
         case .googleImages:
-            urlString = "https://www.google.com/search?tbm=isch&q=\(encodedQuery)"
+            components.host = "www.google.com"
+            components.path = "/search"
+            components.queryItems = [URLQueryItem(name: "tbm", value: "isch"), URLQueryItem(name: "q", value: trimmed)]
         case .alibaba:
-            urlString = "https://www.alibaba.com/trade/search?SearchText=\(encodedQuery)"
+            components.host = "www.alibaba.com"
+            components.path = "/trade/search"
+            components.queryItems = [URLQueryItem(name: "SearchText", value: trimmed)]
         case .aliexpress:
-            urlString = "https://www.aliexpress.com/wholesale?SearchText=\(encodedQuery)"
+            components.host = "www.aliexpress.com"
+            components.path = "/wholesale"
+            components.queryItems = [URLQueryItem(name: "SearchText", value: trimmed)]
         case .etsy:
-            urlString = "https://www.etsy.com/search?q=\(encodedQuery)"
+            components.host = "www.etsy.com"
+            components.path = "/search"
+            components.queryItems = [URLQueryItem(name: "q", value: trimmed)]
         case .tiktok:
-            urlString = "https://www.tiktok.com/search?q=\(encodedQuery)"
+            components.host = "www.tiktok.com"
+            components.path = "/search"
+            components.queryItems = [URLQueryItem(name: "q", value: trimmed)]
         case .instagram:
-            urlString = "https://www.google.com/search?q=site%3Ainstagram.com+\(encodedQuery)"
+            components.host = "www.google.com"
+            components.path = "/search"
+            components.queryItems = [URLQueryItem(name: "q", value: "site:instagram.com \(trimmed)")]
         }
-        return URL(string: urlString)
+        return components.url
+    }
+
+    static func resolvedQuery(for scout: ProductScout) -> String {
+        let manual = scout.researchQuery.trimmingCharacters(in: .whitespacesAndNewlines)
+        if isMeaningfulResearchQuery(manual) { return manual }
+
+        let title = scout.title.trimmingCharacters(in: .whitespacesAndNewlines)
+        if isMeaningfulResearchQuery(title) { return title }
+
+        let category = scout.category.trimmingCharacters(in: .whitespacesAndNewlines)
+        let keywords = usefulOCRKeywords(from: scout.combinedRecognizedText.isEmpty ? scout.recognizedText : scout.combinedRecognizedText)
+        let categoryAndKeywords = ([category] + keywords.prefix(3)).filter(isMeaningfulResearchQuery).joined(separator: " ")
+        if isMeaningfulResearchQuery(categoryAndKeywords) { return categoryAndKeywords }
+
+        let ocrOnly = keywords.prefix(4).joined(separator: " ")
+        return isMeaningfulResearchQuery(ocrOnly) ? ocrOnly : ""
+    }
+
+    static func isMeaningfulResearchQuery(_ query: String) -> Bool {
+        let trimmed = query.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard trimmed.count >= 3 else { return false }
+        let lowercased = trimmed.lowercased()
+        let invalidExact = ["photo", "untitled", "image", "image1", "image2", "image3", "image4"]
+        if invalidExact.contains(lowercased) { return false }
+        if lowercased.range(of: #"^image\s*\d+$"#, options: .regularExpression) != nil { return false }
+        if lowercased.range(of: #"^img[_-]?\d+"#, options: .regularExpression) != nil { return false }
+        if lowercased.range(of: #"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"#, options: .regularExpression) != nil { return false }
+        if trimmed.contains("/") || trimmed.contains("\\") { return false }
+        if ["jpg", "jpeg", "png", "heic"].contains(URL(filePath: trimmed).pathExtension.lowercased()) { return false }
+        return trimmed.contains { $0.isLetter }
     }
 
     static func checkedPlatforms(for scout: ProductScout) -> [String] {
@@ -85,9 +135,15 @@ enum QuickResearchService {
         ].compactMap { $0 }
     }
 
-    private static func encode(_ query: String) -> String? {
-        var allowed = CharacterSet.urlQueryAllowed
-        allowed.remove(charactersIn: "&+=?/#%")
-        return query.addingPercentEncoding(withAllowedCharacters: allowed)
+    private static func usefulOCRKeywords(from text: String) -> [String] {
+        text.components(separatedBy: CharacterSet.alphanumerics.inverted)
+            .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+            .filter { word in
+                word.count >= 3 &&
+                word.count <= 28 &&
+                word.rangeOfCharacter(from: .letters) != nil &&
+                isMeaningfulResearchQuery(word)
+            }
+            .removingDuplicates()
     }
 }

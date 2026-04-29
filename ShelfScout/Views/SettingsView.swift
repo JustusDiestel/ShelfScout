@@ -5,9 +5,7 @@ import SwiftUI
 struct SettingsView: View {
     @Environment(\.modelContext) private var modelContext
     @Query private var scouts: [ProductScout]
-    @AppStorage(PhotoLibrarySavePreference.storageKey) private var photoSavePreferenceRaw = PhotoLibrarySavePreference.askEveryTime.rawValue
-    @State private var shareItems: [Any] = []
-    @State private var showingShare = false
+    @AppStorage(PhotoLibrarySavePreference.storageKey) private var photoSavePreferenceRaw = PhotoLibrarySavePreference.on.rawValue
     @State private var showingDeleteConfirmation = false
     @State private var message: String?
 
@@ -29,12 +27,12 @@ struct SettingsView: View {
                 }
 
                 Section("Photos") {
-                    Picker("Save product photos to Photos", selection: $photoSavePreferenceRaw) {
+                    Picker("Save captured photos to Apple Photos", selection: $photoSavePreferenceRaw) {
                         ForEach(PhotoLibrarySavePreference.allCases) { preference in
                             Text(preference.rawValue).tag(preference.rawValue)
                         }
                     }
-                    Text("Photos saved to Apple Photos may sync with iCloud depending on your personal iCloud settings.")
+                    Text("Captured photos are always stored locally in ShelfScout. If enabled, copies are also saved to Apple Photos. Photos may sync with iCloud depending on your iCloud settings.")
                         .font(.footnote)
                         .foregroundStyle(.secondary)
                 }
@@ -59,9 +57,6 @@ struct SettingsView: View {
                 }
             }
             .navigationTitle("Settings")
-            .sheet(isPresented: $showingShare) {
-                ShareSheet(items: shareItems)
-            }
             .alert("ShelfScout", isPresented: Binding(get: { message != nil }, set: { _ in message = nil })) {
                 Button("OK", role: .cancel) {}
             } message: {
@@ -70,7 +65,7 @@ struct SettingsView: View {
             .confirmationDialog("Delete all local scouts?", isPresented: $showingDeleteConfirmation, titleVisibility: .visible) {
                 Button("Delete all", role: .destructive) {
                     for scout in scouts {
-                        ImageStorageService.delete(path: scout.productPhotoLocalPath)
+                        ImageStorageService.delete(paths: scout.imageLocalPaths)
                         modelContext.delete(scout)
                     }
                 }
@@ -95,7 +90,10 @@ struct SettingsView: View {
     }
 
     private func present(_ url: URL) {
-        shareItems = [url]
-        showingShare = true
+        do {
+            try SharePresenter.present(items: [ExportFileValidator.validate(url)])
+        } catch {
+            message = error.localizedDescription
+        }
     }
 }
