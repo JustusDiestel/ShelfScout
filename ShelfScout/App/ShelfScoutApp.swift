@@ -12,3 +12,4 @@ struct ShelfScoutApp: App {
         .modelContainer(modelContainer)
     }
 }
+
