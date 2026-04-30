@@ -18,3 +18,4 @@ struct MainTabView: View {
         .ignoresSafeArea(edges: .top)
     }
 }
+
