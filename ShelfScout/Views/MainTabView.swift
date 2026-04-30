@@ -15,5 +15,6 @@ struct MainTabView: View {
             SettingsView()
                 .tabItem { Label("Settings", systemImage: "gearshape") }
         }
+        .ignoresSafeArea(edges: .top)
     }
 }
