@@ -38,6 +38,17 @@ final class ProductScout {
     var detectedWeight: String?
     var detectedDimensions: String?
 
+    var researchQuery: String
+    var amazonChecked: Bool
+    var ebayChecked: Bool
+    var googleShoppingChecked: Bool
+    var googleImagesChecked: Bool
+    var alibabaChecked: Bool
+    var aliexpressChecked: Bool
+    var etsyChecked: Bool
+    var tiktokChecked: Bool
+    var instagramChecked: Bool
+
     init(
         id: UUID = UUID(),
         createdAt: Date = Date(),
@@ -67,7 +78,17 @@ final class ProductScout {
         detectedPriceCandidatesJSON: String = "",
         detectedBarcode: String? = nil,
         detectedWeight: String? = nil,
-        detectedDimensions: String? = nil
+        detectedDimensions: String? = nil,
+        researchQuery: String = "",
+        amazonChecked: Bool = false,
+        ebayChecked: Bool = false,
+        googleShoppingChecked: Bool = false,
+        googleImagesChecked: Bool = false,
+        alibabaChecked: Bool = false,
+        aliexpressChecked: Bool = false,
+        etsyChecked: Bool = false,
+        tiktokChecked: Bool = false,
+        instagramChecked: Bool = false
     ) {
         self.id = id
         self.createdAt = createdAt
@@ -98,6 +119,16 @@ final class ProductScout {
         self.detectedBarcode = detectedBarcode
         self.detectedWeight = detectedWeight
         self.detectedDimensions = detectedDimensions
+        self.researchQuery = researchQuery
+        self.amazonChecked = amazonChecked
+        self.ebayChecked = ebayChecked
+        self.googleShoppingChecked = googleShoppingChecked
+        self.googleImagesChecked = googleImagesChecked
+        self.alibabaChecked = alibabaChecked
+        self.aliexpressChecked = aliexpressChecked
+        self.etsyChecked = etsyChecked
+        self.tiktokChecked = tiktokChecked
+        self.instagramChecked = instagramChecked
     }
 }
 
