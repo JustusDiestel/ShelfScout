@@ -3,15 +3,15 @@ import SwiftUI
 
 enum ScoutSort: String, CaseIterable, Identifiable {
     case date = "Date"
-    case score = "Score"
-    case risk = "Risk"
     case category = "Category"
+
     var id: String { rawValue }
 }
 
 struct ScoutListView: View {
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \ProductScout.updatedAt, order: .reverse) private var scouts: [ProductScout]
+
     @State private var searchText = ""
     @State private var statusFilter = "All"
     @State private var sort = ScoutSort.date
@@ -43,10 +43,12 @@ struct ScoutListView: View {
                     Menu {
                         Picker("Status", selection: $statusFilter) {
                             Text("All").tag("All")
+
                             ForEach(ProductScoutStatus.allCases) { status in
                                 Text(status.rawValue).tag(status.rawValue)
                             }
                         }
+
                         Picker("Sort", selection: $sort) {
                             ForEach(ScoutSort.allCases) { option in
                                 Text(option.rawValue).tag(option)
@@ -62,9 +64,11 @@ struct ScoutListView: View {
 
     private var filteredScouts: [ProductScout] {
         var results = scouts
+
         if statusFilter != "All" {
             results = results.filter { $0.status == statusFilter }
         }
+
         if !searchText.isEmpty {
             results = results.filter {
                 $0.title.localizedCaseInsensitiveContains(searchText) ||
@@ -73,13 +77,11 @@ struct ScoutListView: View {
                 $0.notes.localizedCaseInsensitiveContains(searchText)
             }
         }
+
         switch sort {
         case .date:
             return results.sorted { $0.updatedAt > $1.updatedAt }
-        case .score:
-            return results.sorted { $0.scoutScore > $1.scoutScore }
-        case .risk:
-            return results.sorted { $0.riskLevel < $1.riskLevel }
+
         case .category:
             return results.sorted { $0.category < $1.category }
         }
@@ -107,14 +109,19 @@ struct ScoutCardView: View {
             VStack(alignment: .leading, spacing: 5) {
                 Text(scout.displayTitle)
                     .font(.headline)
-                Text([scout.storeName, scout.category].filter { !$0.isEmpty }.joined(separator: " · "))
+
+                Text([scout.storeName, scout.category]
+                    .filter { !$0.isEmpty }
+                    .joined(separator: " · "))
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
                     .lineLimit(1)
+
                 HStack {
-                    Text(AppFormatters.money(scout.observedStorePrice, currency: scout.currency))
-                    Text("Score \(scout.scoutScore)")
-                    Text(scout.riskLevel)
+                    Text(AppFormatters.money(
+                        scout.observedStorePrice,
+                        currency: scout.currency
+                    ))
                 }
                 .font(.caption)
                 .foregroundStyle(.secondary)
