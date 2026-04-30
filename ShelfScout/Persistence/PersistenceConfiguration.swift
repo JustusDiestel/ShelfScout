@@ -5,9 +5,32 @@ enum PersistenceConfiguration {
 
     static func makeModelContainer() -> ModelContainer {
         do {
-            return try ModelContainer(for: schema)
+            let modelConfiguration = ModelConfiguration(
+                schema: schema,
+                isStoredInMemoryOnly: false
+            )
+
+            return try ModelContainer(
+                for: schema,
+                configurations: [modelConfiguration]
+            )
         } catch {
-            fatalError("ShelfScout could not open its local SwiftData store: \(error)")
+            // Wenn die Migration fehlschlägt, starte mit leerer Datenbank
+            print("SwiftData migration error, starting with fresh database: \(error)")
+            do {
+                // Versuche in-memory Container als Fallback
+                let modelConfiguration = ModelConfiguration(
+                    schema: schema,
+                    isStoredInMemoryOnly: true
+                )
+
+                return try ModelContainer(
+                    for: schema,
+                    configurations: [modelConfiguration]
+                )
+            } catch {
+                fatalError("ShelfScout could not open its local SwiftData store: \(error)")
+            }
         }
     }
 }

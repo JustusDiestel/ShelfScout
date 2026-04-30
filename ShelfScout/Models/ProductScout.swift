@@ -38,7 +38,7 @@ final class ProductScout {
     var detectedWeight: String?
     var detectedDimensions: String?
 
-    var researchQuery: String
+    var researchQuery: String?
     var amazonChecked: Bool
     var ebayChecked: Bool
     var googleShoppingChecked: Bool
@@ -48,6 +48,18 @@ final class ProductScout {
     var etsyChecked: Bool
     var tiktokChecked: Bool
     var instagramChecked: Bool
+
+    var scoutScore: Int
+    var riskLevel: String
+
+    var similarProductsFound: Bool
+    var estimatedCompetitionLevel: String?
+    var competitorNotes: String?
+    var classifierSuggestedCategory: String?
+    var classifierSuggestedTagsJSON: String?
+    var classifierSuggestedRiskIndicatorsJSON: String?
+    var classifierConfidence: Double?
+    var classifierLastRunAt: Date?
 
     init(
         id: UUID = UUID(),
@@ -79,7 +91,7 @@ final class ProductScout {
         detectedBarcode: String? = nil,
         detectedWeight: String? = nil,
         detectedDimensions: String? = nil,
-        researchQuery: String = "",
+        researchQuery: String? = nil,
         amazonChecked: Bool = false,
         ebayChecked: Bool = false,
         googleShoppingChecked: Bool = false,
@@ -88,7 +100,17 @@ final class ProductScout {
         aliexpressChecked: Bool = false,
         etsyChecked: Bool = false,
         tiktokChecked: Bool = false,
-        instagramChecked: Bool = false
+        instagramChecked: Bool = false,
+        scoutScore: Int = 0,
+        riskLevel: String = "Medium",
+        similarProductsFound: Bool = false,
+        estimatedCompetitionLevel: String? = nil,
+        competitorNotes: String? = nil,
+        classifierSuggestedCategory: String? = nil,
+        classifierSuggestedTagsJSON: String? = nil,
+        classifierSuggestedRiskIndicatorsJSON: String? = nil,
+        classifierConfidence: Double? = nil,
+        classifierLastRunAt: Date? = nil
     ) {
         self.id = id
         self.createdAt = createdAt
@@ -129,11 +151,34 @@ final class ProductScout {
         self.etsyChecked = etsyChecked
         self.tiktokChecked = tiktokChecked
         self.instagramChecked = instagramChecked
+        self.scoutScore = scoutScore
+        self.riskLevel = riskLevel
+        self.similarProductsFound = similarProductsFound
+        self.estimatedCompetitionLevel = estimatedCompetitionLevel
+        self.competitorNotes = competitorNotes
+        self.classifierSuggestedCategory = classifierSuggestedCategory
+        self.classifierSuggestedTagsJSON = classifierSuggestedTagsJSON
+        self.classifierSuggestedRiskIndicatorsJSON = classifierSuggestedRiskIndicatorsJSON
+        self.classifierConfidence = classifierConfidence
+        self.classifierLastRunAt = classifierLastRunAt
     }
 }
 
 extension ProductScout {
     static let maxImageCount = 4
+
+    static func defaultResearchQuery(title: String, category: String) -> String {
+        let cleanTitle = title.trimmingCharacters(in: .whitespacesAndNewlines)
+        let cleanCategory = category.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        if !cleanTitle.isEmpty {
+            return cleanTitle
+        }
+        if !cleanCategory.isEmpty {
+            return cleanCategory
+        }
+        return ""
+    }
 
     var estimatedGrossProfit: Decimal? {
         ScoringService.estimatedGrossProfit(purchase: estimatedPurchasePrice, sale: estimatedSalePrice)
@@ -170,6 +215,16 @@ extension ProductScout {
 
     var detectedPriceCandidates: [String] {
         decodeJSON([String].self, from: detectedPriceCandidatesJSON) ?? []
+    }
+
+    var classifierSuggestedTags: [String] {
+        guard let json = classifierSuggestedTagsJSON else { return [] }
+        return decodeJSON([String].self, from: json) ?? []
+    }
+
+    var classifierSuggestedRiskIndicators: [String] {
+        guard let json = classifierSuggestedRiskIndicatorsJSON else { return [] }
+        return decodeJSON([String].self, from: json) ?? []
     }
 
     func setImageLocalPaths(_ paths: [String]) {
@@ -275,3 +330,13 @@ enum ProductCategory: String, CaseIterable, Identifiable, Codable {
 
     var id: String { rawValue }
 }
+
+enum CompetitionLevel: String, CaseIterable, Identifiable, Codable {
+    case low = "Low"
+    case medium = "Medium"
+    case high = "High"
+    case unknown = "Unknown"
+
+    var id: String { rawValue }
+}
+

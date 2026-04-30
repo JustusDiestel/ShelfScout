@@ -20,7 +20,6 @@ struct ScoutEditorView: View {
             productSection
             storeLocationSection
             priceSection
-            ocrHelperSection
             #if DEBUG
             debugSection
             #endif
@@ -195,100 +194,6 @@ struct ScoutEditorView: View {
         }
     }
 
-    private var ocrHelperSection: some View {
-        Section("OCR Helper") {
-            Text("OCR checks attached images on this iPhone and suggests obvious values.")
-                .font(.footnote)
-                .foregroundStyle(.secondary)
-
-            Button("Re-check Images", systemImage: "text.viewfinder") {
-                Task { await viewModel.analyzeImages(for: scout) }
-            }
-            .disabled(scout.imageLocalPaths.isEmpty || viewModel.isRunningOCR)
-
-            if viewModel.isRunningOCR {
-                ProgressView("Reading images locally...")
-            }
-            if viewModel.detectedSuggestions.hasAny {
-                detectedSuggestionsView
-            } else if !scout.detectedPriceCandidates.isEmpty || scout.detectedBarcode != nil || scout.detectedWeight != nil || scout.detectedDimensions != nil {
-                savedDetectedValuesView
-            } else {
-                Text("No clear values detected. You can enter details manually.")
-                    .font(.footnote)
-                    .foregroundStyle(.secondary)
-            }
-        }
-    }
-
-    private var detectedSuggestionsView: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            if let title = viewModel.detectedSuggestions.title {
-                suggestionRow(label: "Detected name", value: title) {
-                    viewModel.useDetectedTitle(for: scout)
-                }
-            }
-            ForEach(viewModel.detectedSuggestions.priceCandidates, id: \.self) { candidate in
-                suggestionRow(label: "Detected price", value: candidate) {
-                    viewModel.useDetectedPrice(candidate, for: scout)
-                }
-            }
-            if let currency = viewModel.detectedSuggestions.currency {
-                suggestionRow(label: "Detected currency", value: currency) {
-                    viewModel.useDetectedCurrency(for: scout)
-                }
-            }
-            if let barcode = viewModel.detectedSuggestions.barcode {
-                suggestionRow(label: "Detected barcode", value: barcode) {
-                    viewModel.useDetectedBarcode(for: scout)
-                }
-            }
-            if let weight = viewModel.detectedSuggestions.weight {
-                suggestionRow(label: "Detected weight", value: weight) {
-                    viewModel.useDetectedWeight(for: scout)
-                }
-            }
-            if let dimensions = viewModel.detectedSuggestions.dimensions {
-                suggestionRow(label: "Detected dimensions", value: dimensions) {
-                    viewModel.useDetectedDimensions(for: scout)
-                }
-            }
-        }
-    }
-
-    private var savedDetectedValuesView: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            ForEach(scout.detectedPriceCandidates, id: \.self) { candidate in
-                suggestionRow(label: "Detected price", value: candidate) {
-                    viewModel.useDetectedPrice(candidate, for: scout)
-                }
-            }
-            if let barcode = scout.detectedBarcode {
-                LabeledContent("Detected barcode", value: barcode)
-            }
-            if let weight = scout.detectedWeight {
-                LabeledContent("Detected weight", value: weight)
-            }
-            if let dimensions = scout.detectedDimensions {
-                LabeledContent("Detected dimensions", value: dimensions)
-            }
-        }
-    }
-
-    private func suggestionRow(label: String, value: String, useAction: @escaping () -> Void) -> some View {
-        HStack(alignment: .firstTextBaseline) {
-            VStack(alignment: .leading, spacing: 2) {
-                Text(label)
-                    .font(.caption.weight(.semibold))
-                Text(value)
-                    .font(.footnote)
-                    .foregroundStyle(.secondary)
-            }
-            Spacer()
-            Button("Use", action: useAction)
-                .buttonStyle(.bordered)
-        }
-    }
 
     #if DEBUG
     private var debugSection: some View {
@@ -297,11 +202,6 @@ struct ScoutEditorView: View {
             LabeledContent("Image count", value: "\(scout.imageLocalPaths.count)")
             Text("Images: \(scout.imageLocalPaths.map { URL(filePath: $0).lastPathComponent }.joined(separator: ", "))")
                 .font(.caption)
-            LabeledContent("Last OCR run", value: scout.ocrLastRunAt.map { AppFormatters.date.string(from: $0) } ?? "Not set")
-            LabeledContent("OCR running", value: viewModel.isRunningOCR ? "Yes" : "No")
-            Text(scout.combinedRecognizedText)
-                .font(.caption)
-                .foregroundStyle(.secondary)
         }
     }
     #endif

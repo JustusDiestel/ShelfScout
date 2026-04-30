@@ -43,12 +43,17 @@ enum ImportService {
             scout.tiktokChecked = boolValue(dictionary["tiktokChecked"])
             scout.instagramChecked = boolValue(dictionary["instagramChecked"])
             scout.similarProductsFound = boolValue(dictionary["similarProductsFound"])
-            let competitionLevel = dictionary["estimatedCompetitionLevel"] ?? CompetitionLevel.unknown.rawValue
-            scout.estimatedCompetitionLevel = CompetitionLevel(rawValue: competitionLevel)?.rawValue ?? CompetitionLevel.unknown.rawValue
-            scout.competitorNotes = dictionary["competitorNotes"] ?? ""
+            scout.estimatedCompetitionLevel = dictionary["estimatedCompetitionLevel"]
+            scout.competitorNotes = dictionary["competitorNotes"]
             scout.classifierSuggestedCategory = emptyToNil(dictionary["classifierSuggestedCategory"])
-            scout.classifierSuggestedTags = splitList(dictionary["classifierSuggestedTags"])
-            scout.classifierSuggestedRiskIndicators = splitList(dictionary["classifierSuggestedRiskIndicators"])
+            let tags = splitList(dictionary["classifierSuggestedTags"])
+            if !tags.isEmpty {
+                scout.classifierSuggestedTagsJSON = ProductScout.encodeJSON(tags)
+            }
+            let indicators = splitList(dictionary["classifierSuggestedRiskIndicators"])
+            if !indicators.isEmpty {
+                scout.classifierSuggestedRiskIndicatorsJSON = ProductScout.encodeJSON(indicators)
+            }
             scout.classifierConfidence = Double(dictionary["classifierConfidence"] ?? "")
             if let classifierDate = dictionary["classifierLastRunAt"], let date = ISO8601DateFormatter().date(from: classifierDate) {
                 scout.classifierLastRunAt = date

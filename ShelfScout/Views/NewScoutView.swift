@@ -60,9 +60,6 @@ struct NewScoutView: View {
                         selectedImagesPreview
                     }
 
-                    if viewModel.isAnalyzingImages {
-                        ProgressView("Analyzing images locally...")
-                    }
                     if let message = viewModel.message {
                         Text(message)
                             .font(.footnote)

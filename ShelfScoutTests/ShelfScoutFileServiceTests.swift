@@ -9,8 +9,8 @@ final class ShelfScoutFileServiceTests: XCTestCase {
         scout.estimatedCompetitionLevel = CompetitionLevel.medium.rawValue
         scout.competitorNotes = "Saw a few similar items."
         scout.classifierSuggestedCategory = "Kitchen"
-        scout.classifierSuggestedTags = ["kitchen", "bottle"]
-        scout.classifierSuggestedRiskIndicators = ["possibleFoodContact"]
+        scout.classifierSuggestedTagsJSON = ProductScout.encodeJSON(["kitchen", "bottle"])
+        scout.classifierSuggestedRiskIndicatorsJSON = ProductScout.encodeJSON(["possibleFoodContact"])
         scout.classifierConfidence = 0.72
         scout.classifierLastRunAt = Date(timeIntervalSince1970: 1_800_000_000)
         let data = try ShelfScoutFileService.documentData(for: scout)

@@ -125,25 +125,14 @@ struct ExportView: View {
             let url = try result.get()
             let ext = url.pathExtension.lowercased()
             let imported: [ProductScout]
-            let shouldRunOCR: Bool
             if ext == "shelfscout" || ext == "json" {
                 imported = try ImportService.importShelfScout(from: url)
-                shouldRunOCR = false
             } else if ext == "csv" || ext == "txt" {
                 imported = try ImportService.importCSV(from: url)
-                shouldRunOCR = false
             } else {
                 imported = try importImage(from: url)
-                shouldRunOCR = true
             }
             imported.forEach { modelContext.insert($0) }
-            if shouldRunOCR {
-                Task {
-                    for scout in imported {
-                        await runOCR(for: scout)
-                    }
-                }
-            }
             message = "Imported \(imported.count) scout\(imported.count == 1 ? "" : "s")."
         } catch {
             message = "The file could not be imported. \(error.localizedDescription)"
@@ -163,9 +152,5 @@ struct ExportView: View {
         let path = try ImageStorageService.save(image)
         scout.addImageLocalPath(path)
         return [scout]
-    }
-
-    private func runOCR(for scout: ProductScout) async {
-        await ScoutEditorViewModel().analyzeAllImages(for: scout, runClassifier: false)
     }
 }

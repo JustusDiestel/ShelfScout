@@ -92,7 +92,7 @@ enum QuickResearchService {
     }
 
     static func resolvedQuery(for scout: ProductScout) -> String {
-        let manual = scout.researchQuery.trimmingCharacters(in: .whitespacesAndNewlines)
+        let manual = (scout.researchQuery ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
         if isMeaningfulResearchQuery(manual) { return manual }
 
         let title = scout.title.trimmingCharacters(in: .whitespacesAndNewlines)
