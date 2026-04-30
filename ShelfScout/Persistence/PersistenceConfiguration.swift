@@ -11,7 +11,7 @@ enum PersistenceConfiguration {
             )
 
             return try ModelContainer(
-                for: schema,
+                 for: schema,
                 configurations: [modelConfiguration]
             )
         } catch {
