@@ -3,8 +3,14 @@ import UIKit
 
 enum PDFExportService {
     static func writePDF(for scout: ProductScout) throws -> URL {
-        let safeTitle = scout.displayTitle.replacingOccurrences(of: "/", with: "-")
-        let url = FileManager.default.temporaryDirectory.appendingPathComponent("\(safeTitle) Scout Card.pdf")
+        let filename = exportFilename(
+            productName: scout.displayTitle,
+            fileExtension: "pdf"
+        )
+
+        let url = FileManager.default.temporaryDirectory
+            .appendingPathComponent(filename)
+
         try makePDF(for: [scout]).write(to: url, options: .atomic)
         return url
     }
@@ -13,6 +19,31 @@ enum PDFExportService {
         let url = FileManager.default.temporaryDirectory.appendingPathComponent(filename.replacingOccurrences(of: "/", with: "-"))
         try makePDF(for: scouts).write(to: url, options: .atomic)
         return url
+    }
+
+    private static func exportFilename(
+        productName: String,
+        fileExtension: String,
+        date: Date = Date()
+    ) -> String {
+        let safeProductName = sanitizeFilenamePart(
+            productName.isEmpty ? "Unbenanntes_Produkt" : productName
+        )
+
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+
+        let dateString = formatter.string(from: date)
+
+        return "\(safeProductName)_ShelfScout_\(dateString).\(fileExtension)"
+    }
+
+    private static func sanitizeFilenamePart(_ value: String) -> String {
+        value
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+            .replacingOccurrences(of: " ", with: "_")
+            .components(separatedBy: CharacterSet(charactersIn: "/\\?%*|\"<>:"))
+            .joined()
     }
 
     static func makePDF(for scouts: [ProductScout]) -> Data {
@@ -66,14 +97,6 @@ enum PDFExportService {
             drawSection("Short Description", body: scout.productDescription, y: &y, context: context, pageRect: pageRect, width: contentWidth)
         }
         drawSection("Notes", body: scout.notes.isEmpty ? "No notes." : scout.notes, y: &y, context: context, pageRect: pageRect, width: contentWidth)
-        drawSection(
-            "Disclaimer",
-            body: "This document is a local product scouting note. It is not legal, tax, customs, product safety, or business advice.",
-            y: &y,
-            context: context,
-            pageRect: pageRect,
-            width: contentWidth
-        )
     }
 
     private static func beginPage(_ context: UIGraphicsPDFRendererContext, _ pageRect: CGRect) {
