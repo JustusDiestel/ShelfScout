@@ -20,9 +20,6 @@ struct ScoutEditorView: View {
             productSection
             storeLocationSection
             priceSection
-            #if DEBUG
-            debugSection
-            #endif
         }
         .navigationTitle("Edit Scout")
         .navigationBarTitleDisplayMode(.inline)

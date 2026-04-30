@@ -98,7 +98,7 @@ struct NewScoutView: View {
 
     private var selectedImagesPreview: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("Selected images")
+            Text("Last selected images")
                 .font(.headline)
             Text("Images \(previewImages.count)/\(ProductScout.maxImageCount)")
                 .font(.footnote)

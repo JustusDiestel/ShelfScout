@@ -71,16 +71,6 @@ struct ScoutDetailView: View {
             Section("Notes") {
                 Text(scout.notes.isEmpty ? "No notes." : scout.notes)
             }
-
-            #if DEBUG
-            debugSection
-            #endif
-
-            Section {
-                Button("Delete Scout", systemImage: "trash", role: .destructive) {
-                    showingDeleteConfirmation = true
-                }
-            }
         }
         .navigationTitle("Scout")
         .navigationBarTitleDisplayMode(.inline)
